@@ -1,8 +1,8 @@
 <?php
 
-namespace DSE;
+namespace DSE\classes;
 
-use DSE\IRequest;
+use DSE\classes\IRequest;
 
 class Request implements IRequest {
     
