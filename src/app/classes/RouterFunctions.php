@@ -8,16 +8,18 @@ class RouterFunctions {
     
     private $routes = [
         'GET' => [
-            '/' => 'root',
+            '/' => [
+                'DSE\controllers\Product',
+                'list'
+            ],
             '/product' => [
-                'DSE\models\Product',
+                'DSE\controllers\Product',
                 'list'
             ],
             '/product/{{id}}'=>[
-                'DSE\models\Product',
+                'DSE\controllers\Product',
                 'view'
             ],
-            
             '/product_type' => 'productTypeList',
             '/product_type/{{id}}'=>'productTypeView',
             '/stock' => 'stockList',
@@ -31,8 +33,21 @@ class RouterFunctions {
             '/stock/{{id}}'=>'stockEdit',
             '/sale/{{id}}'=>'saleEdit',
         ],
-        'DEL' => [
-            '/product/{{id}}'=>'productRemove',
+        'POST' => [
+            '/product'=> [
+                'DSE\controllers\Product',
+                'insert'
+            ],
+            'productInsert',
+            '/product_type'=>'productTypeInsert',
+            '/stock'=>'stockInsert',
+            '/sale'=>'saleInsert',
+        ],
+        'DELETE' => [
+            '/product/{{id}}'=>[
+                'DSE\controllers\Product',
+                'delete'
+            ],
             '/product_type/{{id}}'=>'productTypeRemove',
             '/stock/{{id}}'=>'stockRemove',
             '/sale/{{id}}'=>'saleRemove',

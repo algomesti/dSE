@@ -10,7 +10,7 @@ use DSE\classes\Router;
 
 class MyDB extends SQLite3
 {
-    function __construct()
+    public function __construct()
     {
         $this->open('product.db');
     }
