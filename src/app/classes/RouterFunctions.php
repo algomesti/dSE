@@ -19,38 +19,64 @@ class RouterFunctions {
             '/product/{{id}}'=>[
                 'DSE\controllers\Product',
                 'view'
+            ],'/product_type' => [
+                'DSE\controllers\ProductType',
+                'list'
             ],
-            '/product_type' => 'productTypeList',
-            '/product_type/{{id}}'=>'productTypeView',
-            '/stock' => 'stockList',
-            '/stock/{{id}}'=>'stockView',
-            '/sale' => 'saleList',
-            '/sale/{{id}}'=>'saleView',
+            '/product_type/{{id}}'=>[
+                'DSE\controllers\ProductType',
+                'view'
+            ],
+            '/sale'=>[
+                'DSE\controllers\Sale',
+                'list'
+            ],
+            '/sale/{{id}}'=>[
+                'DSE\controllers\Sale',
+                'view'
+            ]
         ],
         'PUT' => [
-            '/product/{{id}}'=>'productEdit',
-            '/product_type/{{id}}'=>'productTypeEdit',
-            '/stock/{{id}}'=>'stockEdit',
-            '/sale/{{id}}'=>'saleEdit',
+            '/product/{{id}}'=> [
+                'DSE\controllers\Product',
+                'edit'
+            ],
+            '/product_type/{{id}}'=> [
+                'DSE\controllers\ProductType',
+                'edit'
+            ],
+            '/sale/{{id}}'=> [
+                'DSE\controllers\Sale',
+                'edit'
+            ]
         ],
         'POST' => [
             '/product'=> [
                 'DSE\controllers\Product',
                 'insert'
             ],
-            'productInsert',
-            '/product_type'=>'productTypeInsert',
-            '/stock'=>'stockInsert',
-            '/sale'=>'saleInsert',
+            '/product_type'=> [
+                'DSE\controllers\ProductType',
+                'insert'
+            ],
+            '/sale'=> [
+                'DSE\controllers\Sale',
+                'insert'
+            ]
         ],
         'DELETE' => [
             '/product/{{id}}'=>[
                 'DSE\controllers\Product',
                 'delete'
             ],
-            '/product_type/{{id}}'=>'productTypeRemove',
-            '/stock/{{id}}'=>'stockRemove',
-            '/sale/{{id}}'=>'saleRemove',
+            '/product_type/{{id}}'=>[
+                'DSE\controllers\ProductType',
+                'delete'
+            ],
+            '/sale/{{id}}'=>[
+                'DSE\controllers\Sale',
+                'delete'
+            ]
         ]
     ];
 

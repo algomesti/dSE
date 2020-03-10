@@ -9,37 +9,49 @@ class DB extends \SQLite3
         $this->open('product.db');
     }
 
-    public function insert(string $table, array $fields, array $values) : ?array {
-        
+    public function insert(string $table, array $fields, array $values, string $key) : ?array {
+      
         $stringFiels = implode(',', $fields);
         $stringValues = implode(',', $values);
         $sql = "INSERT INTO $table ($stringFiels) VALUES ($stringValues)";
         $result = $this->exec($sql);
         $id = $this->lastInsertRowID();
-        return $this->view($table, $id);
-        
+        return $this->view($table, $id, $key);
+       
     }
 
-    public function update(string $table, array $fields, array $values) : ?array {
-
+    public function edit(int $id, string $table, array $fields, array $values, string $key) : ?array {
+        $fieldsFormated = [];
+        for($i = 0; $i < count($fields); $i++) {
+            $fieldsFormated[] = $fields[$i] . " = " .$values[$i];
+        }
+        $fieldsFormated[] = 'updateAt = "'.date('Y-m-d h:i:s').'"';
+        $stringFiels = implode(',', $fieldsFormated);
+        $stringValues = implode(',', $values);
+        $sql = "UPDATE $table SET  $stringFiels WHERE $key = $id";
+        $result = $this->exec($sql);
+        return $this->view($table, $id, $key);
     } 
 
-    public function delete(string $table, int $id) : ?array {
+    public function delete(string $table, int $id, string $key) : ?array {
         
-        $sql = " DELETE FROM $table where id_product = $id";
+        $sql = " DELETE FROM $table where $key = $id";
         $result = $this->exec($sql);
         $ret = [
             [
-                'id_product' => $id,
+                $key => $id,
                 'status' => 'deleted'
             ]
         ];
-        return $ret; 
+        if (0 === $this->changes()) {
+            return null;
+        }
+        return $ret;
     }
 
-    public function view(string $table, int $id) : ?array {
+    public function view(string $table, int $id, string $key) : ?array {
 
-        $sql = " SELECT * FROM $table where id_product = $id";
+        $sql = " SELECT * FROM $table where $key = $id";
         $result = $this->query($sql);
         $ret = [];
         while ($row = $result->fetchArray(true)) {
@@ -60,5 +72,4 @@ class DB extends \SQLite3
         return $ret;
 
     }
-
 }

@@ -3,21 +3,21 @@
 namespace DSE\controllers;
 
 use DSE\classes\Controller;
-use DSE\models\Product as ModelProduct;
+use DSE\models\ProductType as ModelProductType;
 
-class Product extends Controller{
+class ProductType extends Controller{
 
     private $model;
 
     public function __construct() {
-        $this->model = new ModelProduct();
+        $this->model = new ModelProductType();
     }
 
     public function list($parameters) {      
         try {
             echo $this->returnJson($this->model->list());
         } catch (\Exception $e) {
-            echo $this->returnErrorJson($parameters , $e);
+            echo $this->returnErrorJson($parameters, $e);
         }
     }
 
@@ -25,7 +25,7 @@ class Product extends Controller{
         try {
             echo $this->returnJson($this->model->view((int) $parameters[0]));
         } catch (\Exception $e) {
-            echo $this->returnErrorJson($parameters, $e);
+            echo $this->returnErrorJson($parameters , $e);
         }
     }
 
@@ -40,22 +40,21 @@ class Product extends Controller{
     public function insert($parameters) {
         try {
             $json = file_get_contents('php://input');
-            $product = json_decode($json, true);     
-            echo $this->returnJson($this->model->insert($product));
+            $productType = json_decode($json, true);     
+            echo $this->returnJson($this->model->insert($productType));
         } catch (\Exception $e) {
-            echo $this->returnErrorJson($product , $e);
+            echo $this->returnErrorJson($productType, $e);
         }
     }
 
     public function edit($parameters) {
         try {
             $json = file_get_contents('php://input');
-            $product = json_decode($json, true);     
-            echo $this->returnJson($this->model->edit((int) $parameters[0], $product));
+            $productType = json_decode($json, true);     
+            echo $this->returnJson($this->model->edit((int) $parameters[0], $productType));
         } catch (\Exception $e) {
-            echo $this->returnErrorJson($product , $e);
+            echo $this->returnErrorJson($productType, $e);
         }
-        
     }
 
 }

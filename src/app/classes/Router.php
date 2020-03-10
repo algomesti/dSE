@@ -23,7 +23,11 @@ class Router {
         }
         $modelClass = $arrayfunction[0];
         $modelMethod = $arrayfunction[1];
+        
         $model = new $modelClass();
+        //echo $modelMethod;
+        //print_r($model);
+        //die('no route');
         $model->$modelMethod($this->routerFunctions->getArgs());
     }
 

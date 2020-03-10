@@ -3,14 +3,14 @@
 namespace DSE\controllers;
 
 use DSE\classes\Controller;
-use DSE\models\Product as ModelProduct;
+use DSE\models\Sale as ModelSale;
 
-class Product extends Controller{
+class Sale extends Controller{
 
     private $model;
 
     public function __construct() {
-        $this->model = new ModelProduct();
+        $this->model = new ModelSale();
     }
 
     public function list($parameters) {      
@@ -25,7 +25,7 @@ class Product extends Controller{
         try {
             echo $this->returnJson($this->model->view((int) $parameters[0]));
         } catch (\Exception $e) {
-            echo $this->returnErrorJson($parameters, $e);
+            echo $this->returnErrorJson($parameters , $e);
         }
     }
 
@@ -40,22 +40,21 @@ class Product extends Controller{
     public function insert($parameters) {
         try {
             $json = file_get_contents('php://input');
-            $product = json_decode($json, true);     
-            echo $this->returnJson($this->model->insert($product));
+            $Sale = json_decode($json, true);     
+            echo $this->returnJson($this->model->insert($Sale));
         } catch (\Exception $e) {
-            echo $this->returnErrorJson($product , $e);
+            echo $this->returnErrorJson($Sale, $e);
         }
     }
 
     public function edit($parameters) {
         try {
             $json = file_get_contents('php://input');
-            $product = json_decode($json, true);     
-            echo $this->returnJson($this->model->edit((int) $parameters[0], $product));
+            $Sale = json_decode($json, true);     
+            echo $this->returnJson($this->model->edit((int) $parameters[0], $Sale));
         } catch (\Exception $e) {
-            echo $this->returnErrorJson($product , $e);
+            echo $this->returnErrorJson($Sale, $e);
         }
-        
     }
 
 }
