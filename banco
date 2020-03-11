@@ -19,10 +19,14 @@ CREATE TABLE "product_type" (
 )
 
 
-CREATE TABLE "stock" (
-  `id_stock` INTEGER PRIMARY KEY NOT NULL,
+CREATE TABLE "sale" (
+  `id_sale` INTEGER PRIMARY KEY NOT NULL,
   `id_product`  INTEGER NOT NULL,
+  `unity_value` float NOT NULL,
+  `tax` float NOT NULL,
   `quantity`  INTEGER NOT NULL,
+  `value`  INTEGER NOT NULL,
+  `total`  INTEGER NOT NULL,
   `createAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `updateAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP 
 )

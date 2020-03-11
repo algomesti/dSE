@@ -63,7 +63,58 @@ class DB extends \SQLite3
 
     public function list(string $table) : ?array {
         
-        $sql = " SELECT * FROM $table";
+        switch ($table) {
+            case 'Sale':
+                $join = [
+                    'table' => 'product',
+                    'campoT1' => 'id_product',
+                    'campoT2' => 'id_product',
+                    'ret' =>'name'
+                ];
+                $sql = "
+                    SELECT 
+                        T1.id_sale,
+                        T1.id_product,
+                        T2.{$join['ret']},
+                        T1.unity_value,
+                        T1.tax,
+                        T1.quantity,
+                        T1.value,
+                        T1.total
+                    FROM 
+                        $table as T1
+                    LEFT JOIN
+                        {$join['table']} as T2 ON T1.{$join['campoT1']} = T2.{$join['campoT2']} 
+                    order by 1 DESC
+                ";
+                break;
+            case 'product':
+                $join = [
+                    'table' => 'product_type',
+                    'campoT1' => 'id_product_type',
+                    'campoT2' => 'id_product_type',
+                    'ret' =>'title'
+                ];
+    
+                $sql = "
+                    SELECT 
+                        T1.id_product,
+                        T1.id_product_type,
+                        T2.{$join['ret']},
+                        T1.name,
+                        T1.description,
+                        T1.price
+                    FROM 
+                        $table as T1
+                    LEFT JOIN
+                        {$join['table']} as T2 ON T1.{$join['campoT1']} = T2.{$join['campoT2']} 
+                    order by 1 DESC
+                ";
+                break;
+            default:
+                $sql = "SELECT * FROM  $table  order by 1 DESC";
+                break;
+        }
         $result = $this->query($sql);
         $ret = [];
         while ($row = $result->fetchArray(true)) {

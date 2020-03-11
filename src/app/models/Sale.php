@@ -4,21 +4,19 @@ namespace DSE\models;
 
 use DSE\library\Db;
 use DSE\models\Product;
-
+use DSE\models\ProductType;
 class Sale {
 
     private $db;
 
     private $fields = [
         'id_product' => 'int',
-        'tax' => 'float',
         'unity_value' => 'float',
         'quantity' => 'int'
     ];
 
     private $required = [
         'id_product',
-        'tax',
         'unity_value',
         'quantity'
     ];
@@ -51,8 +49,10 @@ class Sale {
         $this->validFields($Sale);
         $this->validFieldsRequired($Sale);
         $this->checkProductExists($Sale['id_product']);
+        $tax = $this->getTax($Sale['id_product']);
         $Sale = $this->formatFields($Sale);
-        $Sale['value'] = $Sale['unity_value'] + ($Sale['tax'] * $Sale['unity_value'])/100;
+        $Sale['tax'] = $tax;
+        $Sale['value'] = $Sale['unity_value'] + ($tax * $Sale['unity_value'])/100;
         $Sale['total'] = $Sale['value'] * $Sale['quantity'];
         $return = $this->db->insert('Sale', array_keys($Sale), array_values($Sale), 'id_sale');
         return $return[0] ?? false;
@@ -68,6 +68,9 @@ class Sale {
             ||
             in_array('quantity', array_keys($Sale))
         ) {
+            if(isset($Sale['id_product'])) {
+                $Sale['tax']=$this->getTax($Sale['id_product']);
+            }
             $Sale = $this->handleValues($id, $Sale);
         }
         $return = $this->db->edit($id, 'Sale', array_keys($Sale), array_values($Sale), 'id_sale');
@@ -132,5 +135,12 @@ class Sale {
     private function checkProductExists(int $id_product) : void {
         (new Product())->view($id_product);
     }
+
+    private function getTax(int $id_product) : ?float {
+        $product =((new Product())->view($id_product))[0];
+        $id_product_type = $product['id_product_type'];
+        $productType = ((new ProductType())->view((int)$id_product_type))[0];
+        return (float)$productType['tax'];
+    } 
 
 }

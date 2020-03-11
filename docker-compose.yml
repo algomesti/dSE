@@ -3,23 +3,12 @@ services:
     php-apache:
         build: ./docker
         ports:
-            - 80:80
+            - 8080:80
         volumes:
             - ./src:/var/www/html
-        links:
-            - 'mariadb'
-
-    mariadb:
-        image: mariadb:10.1
+    php-apache-front:
+        build: ./docker
+        ports:
+            - 80:80
         volumes:
-            - mariadb:/var/lib/mysql
-        environment:
-            TZ: "Europe/Rome"
-            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-            MYSQL_ROOT_PASSWORD: "rootpwd"
-            MYSQL_USER: 'testuser'
-            MYSQL_PASSWORD: 'testpassword'
-            MYSQL_DATABASE: 'testdb'
-
-volumes:
-    mariadb:
+            - ./view:/var/www/html
