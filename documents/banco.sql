@@ -8,7 +8,6 @@ CREATE TABLE `product` (
   `updateAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 )
 
-
 CREATE TABLE "product_type" (
   `id_product_type` INTEGER PRIMARY KEY NOT NULL,
   `title` varchar(50) NOT NULL ,
@@ -17,7 +16,6 @@ CREATE TABLE "product_type" (
   `createAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `updateAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP 
 )
-
 
 CREATE TABLE "sale" (
   `id_sale` INTEGER PRIMARY KEY NOT NULL,
